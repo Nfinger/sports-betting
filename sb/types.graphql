@@ -1,0 +1,420 @@
+# The following types define the data model of the example service
+# based on which the GraphQL API is generated
+
+type User @model {
+  # Required system field:
+  id: ID! @isUnique # read-only (managed by Graphcool)
+
+  # Optional system fields (remove if not needed):
+  createdAt: DateTime! # read-only (managed by Graphcool)
+  updatedAt: DateTime! # read-only (managed by Graphcool)
+
+  email: String! @isUnique
+  password: String!
+  entries: [Entry!]! @relation(name: "UserOnEntry")
+}
+
+############ ACTUAL GAME INFO ################
+
+type CurrentWeek @model {
+  id: ID! @isUnique
+  currentWeek: Int!
+}
+
+# This is a real team
+type Team @model {
+  id: ID! @isUnique
+  logo: String
+  name: String
+  city: String
+  abbreviation: String! @isUnique
+  wins: Int
+  loses: Int
+  ties: Int
+  primaryColor: String
+  secondaryColor: String
+  radarId: String @isUnique
+  stats: Stats @relation(name: "TeamStats")
+  homeGames: [Game!]! @relation(name: "HomeTeamOnGame")
+  awayGames: [Game!]! @relation(name: "AwayTeamOnGame")
+  players: [Player!]! @relation(name: "TeamOnPlayer")
+}
+
+# Team Stats
+type Stats @model {
+  id: ID! @isUnique
+  team: Team @relation(name: "TeamStats") @isUnique
+  touchdowns: Touchdowns @relation(name: "TouchownsStats")
+  rushing: Rushing @relation(name: "RushingStats")
+  receiving: Receiving @relation(name: "ReceivingStats")
+  punts: Punts @relation(name: "PuntsStats")
+  puntReturns: PuntReturns @relation(name: "PuntReturnsStats")
+  penalties: Penalties @relation(name: "PenaltiesStats")
+  passing: Passing @relation(name: "PassingStats")
+  kickoffs: Kickoffs @relation(name: "KickoffsStats")
+  kickReturns: KickReturns @relation(name: "KickReturnsStats")
+  interceptions: Interceptions @relation(name: "InterceptionsStats")
+  interceptionReturns: InterceptionReturns @relation(name: "InterceptionReturnsStats")
+  fumbles: Fumbles @relation(name: "FumblesStats")
+  firstDowns: FirstDowns @relation(name: "FirstDownsStats")
+  fieldGoals: FieldGoals @relation(name: "FieldGoalsStats")
+  efficiency: Efficiency @relation(name: "EfficiencyStats")
+  defense: Defense @relation(name: "DefenseStats")
+}
+
+type Touchdowns @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "TouchownsStats")
+  pass: Int
+  rush: Int
+  totalReturn: Int
+  total: Int
+  fumbleReturn: Int
+  intReturn: Int
+  kickReturn: Int
+  puntReturn: Int
+  other: Int
+}
+
+type Rushing @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "RushingStats")
+  avgYards: Float
+  attempts: Int
+  touchdowns: Int
+  tlost: Int
+  tlostYards: Int
+  yards: Int
+  longest: Int
+  longestTouchdown: Int
+  redzoneAttempts: Int
+  brokenTackles: Int
+  kneelDowns: Int
+  scrambles: Int
+  yardsAfterContact: Int
+}
+
+type Receiving @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "ReceivingStats")
+  targets: Float
+  receptions: Float
+  avgYards: Float
+  yards: Float
+  touchdowns: Float
+  yardsAfterCatch: Float
+  longest: Float
+  longestTouchdown: Float
+  redzoneTargets: Float
+  airYards: Float
+  brokenTackles: Float
+  droppedPasses: Float
+  catchablePasses: Float
+  yardsAfterContact: Float
+}
+
+type Punts @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "PuntsStats")
+  attempts: Float
+  yards: Float
+  netYards: Float
+  blocked: Float
+  touchbacks: Float
+  inside20: Float
+  returnYards: Float
+  avgNetYards: Float
+  avgYards: Float
+  longest: Float
+  hangTime: Float
+  avgHangTime: Float
+}
+
+type PuntReturns @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "PuntReturnsStats")
+  avgYards: Float
+  returns: Float
+  yards: Float
+  longest: Float
+  touchdowns: Float
+  longestTouchdown: Float
+  faircatches: Float
+}
+
+type Penalties @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "PenaltiesStats")
+  penalties: Float
+  yards: Float
+}
+
+type Passing @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "PassingStats")
+  attempts: Float
+  completions: Float
+  cmpPct: Float
+  interceptions: Float
+  sackYards: Float
+  rating: Float
+  touchdowns: Float
+  avgYards: Float
+  sacks: Float
+  longest: Float
+  longestTouchdown: Float
+  airYards: Float
+  redzoneAttempts: Float
+  netYards: Float
+  yards: Float
+  grossYards: Float
+  throwAways: Float
+  poorThrows: Float
+  defendedPasses: Float
+  droppedPasses: Float
+  spikes: Float
+  blitzes: Float
+  hurries: Float
+  knockdowns: Float
+  pocketTime: Float
+}
+
+type Kickoffs @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "KickoffsStats")
+  endzone: Float
+  inside20: Float
+  returnYards: Float
+  returned: Float
+  touchbacks: Float
+  yards: Float
+  outOfBounds: Float
+  kickoffs: Float
+  onsideAttempts: Float
+  onsideSuccesses: Float
+  squibKicks: Float
+}
+
+type KickReturns @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "KickReturnsStats")
+  avgYards: Float
+  yards: Float
+  longest: Float
+  touchdowns: Float
+  longestTouchdown: Float
+  faircatches: Float
+  returns: Float
+}
+
+type Interceptions @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "InterceptionsStats")
+  returnYards: Float
+  returned: Float
+  interceptions: Float
+}
+
+type InterceptionReturns @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "InterceptionReturnsStats")
+  avgYards: Float
+  yards: Float
+  longest: Float
+  touchdowns: Float
+  longestTouchdown: Float
+  returns: Float
+}
+
+type Fumbles @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "FumblesStats")
+  fumbles: Int
+  lostFumbles: Int
+  ownRec: Int
+  ownRecYards: Int
+  oppRec: Int
+  oppRecYards: Int
+  outOfBounds: Int
+  forcedFumbles: Int
+  ownRecTds: Int
+  oppRecTds: Int
+  ezRecTds: Int
+}
+
+type FirstDowns @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "FirstDownsStats")
+  pass: Int
+  penalty: Int
+  rush: Int
+  total: Int
+}
+
+type FieldGoals @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "FieldGoalsStats")
+  attempts: Float
+  made: Float
+  blocked: Float
+  yards: Float
+  avgYards: Float
+  longest: Float
+}
+
+type Efficiency @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "EfficiencyStats")
+  goaltogo: Float
+  redzone: Float
+  thirddown: Float
+  fourthdown: Float
+}
+
+type Defense @model {
+  id: ID! @isUnique
+  stats: Stats @relation(name: "DefenseStats")
+  tackles: Int
+  assists: Int
+  combined: Int
+  sacks: Int
+  sackYards: Int
+  interceptions: Int
+  passesDefended: Int
+  forcedFumbles: Int
+  fumbleRecoveries: Int
+  qbHits: Int
+  tloss: Int
+  tlossYards: Int
+  safeties: Int
+  spTackles: Int
+  spAssists: Int
+  spForcedFumbles: Int
+  spFumbleRecoveries: Int
+  spBlocks: Int
+  miscTackles: Int
+  miscAssists: Int
+  miscForcedFumbles: Int
+  miscFumbleRecoveries: Int
+  defTargets: Int
+  defComps: Int
+  blitzes: Int
+  hurries: Int
+  knockdowns: Int
+  missedTackles: Int
+}
+
+# Players on real team
+type Player @model {
+  id: ID! @isUnique
+  name: String!
+  position: String
+  image: String
+  stats: String
+  team: Team @relation(name: "TeamOnPlayer")
+}
+
+# This is a real game
+type Game @model {
+  id: ID! @isUnique
+  homeTeam: Team! @relation(name:"HomeTeamOnGame")
+  awayTeam: Team! @relation(name:"AwayTeamOnGame")
+  gameKey: String
+  time: DateTime
+  gameClock: String
+  quarter: String
+  score: String
+  weather: Weather @relation(name:"GameWeather")
+  odds: Odds @relation(name:"OddsOnGame")
+  storyHeader: String
+  storyBody: String
+  week: Int!
+  venue: Venue @relation(name:"GameVenue")
+  bets: [Bet!]! @relation(name:"GameOnBet")
+  broadcast: String
+}
+# Weather Condition for game
+# split out condition to make icon matching easier
+type Weather @model {
+  id: ID! @isUnique
+  temperature: String
+  condition: String
+  game: Game @relation(name:"GameWeather")
+}
+
+type Venue @model {
+  id: ID! @isUnique
+  name: String!  @isUnique
+  city: String
+  state: String
+  country: String
+  zip: String
+  address: String!
+  surface: String!
+  roofType: String!
+  game: Game @relation(name: "GameVenue")
+}
+# Each game has a set of odds
+type Odds @model {
+  id: ID! @isUnique
+  game: Game @relation(name: "OddsOnGame")
+  moneyLineHome: Float
+  moneyLineAway: Float
+  homePointSpreadPayout: Float
+  awayPointSpreadPayout: Float
+  spreadHome: Float
+  spreadAway: Float
+  over: Float
+  overPayout: Float
+  under: Float
+  underPayout: Float
+  gameKey: String
+}
+
+############ Betting Models ##################
+
+type Bet @model {
+  id: ID! @isUnique
+  amount: Float!
+  game: Game! @relation(name:"GameOnBet")
+  betType: String
+  value: String
+  entry: Entry @relation(name: "BetsOnEntry")
+}
+
+########### Daily Fantasy Models ##################
+
+type DailyContest @model {
+  id: ID! @isUnique
+  name: String!
+  entries: [Entry!]! @relation(name: "EntryInContest")
+  payout: Float
+  fee: Float
+  week: Int
+  startTime: DateTime
+  endTime: DateTime
+}
+# Daily contest entry
+type Entry @model {
+  id: ID! @isUnique
+  owner: User! @relation(name: "UserOnEntry")
+  bets: [Bet!]! @relation(name: "BetsOnEntry")
+  winnings: Float
+  payout: Float
+  dailyContest: DailyContest @relation(name: "EntryInContest")
+}
+
+############# Season Long Fantasy Info ###################
+
+
+
+######################## Articles ########################
+type Article @model {
+  id: ID! @isUnique
+  author: String
+  title: String! @isUnique
+  description: String
+  url: String
+  urlToImage: String
+  publishedAt: DateTime
+}

@@ -1,0 +1,48 @@
+service: aws-nodejs # NOTE: update this with your service name
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+plugins:
+  - serverless-offline
+
+functions:
+  gameBuilder:
+    handler: handler.gameBuilder
+    events:
+      - schedule: cron(0 4 * * ? *)
+      - http:
+          path: gameBuilder
+          method: get
+  articles:
+    handler: handler.articles
+    events:
+      - schedule: rate(30 minutes)
+      - http:
+          path: articles
+          method: get
+
+  contests:
+    handler: handler.contests
+    events:
+      - schedule: cron(0 4 * * ? *)
+      - http:
+          path: contests
+          method: get
+          
+  scraper:
+    handler: scraper.scraper
+    events:
+      - schedule: rate(1 hour)
+      - http:
+          path: scraper
+          method: get
+
+  calculate:
+    handler: calculate.calculate
+    events:
+      - schedule: rate(30 minutes)
+      - http:
+          path: calculate
+          method: get

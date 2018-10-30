@@ -1,0 +1,19 @@
+{
+    "name": "sls",
+    "version": "1.0.0",
+    "description": "sls",
+    "dependencies": {
+        "axios": "^0.18.0",
+        "cheerio": "^1.0.0-rc.2",
+        "date-fns": "^1.29.0",
+        "geocoder": "^0.2.3",
+        "graphql-client": "^2.0.1",
+        "graphql-request": "^1.8.2",
+        "request": "^2.88.0",
+        "request-promise": "^4.2.2",
+        "sportsdata": "^0.1.19"
+    },
+    "devDependencies": {
+        "serverless-offline": "^3.25.14"
+    }
+}

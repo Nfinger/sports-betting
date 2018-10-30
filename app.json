@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "bet-a-lot",
+    "description": "This project is supposed to make me money.",
+    "slug": "bet-a-lot",
+    "privacy": "public",
+    "sdkVersion": "30.0.0",
+    "platforms": ["ios", "android"],
+    "icon": "./assets/images/icon.png",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "ios": {
+      "bundleIdentifier": "com.middlefingersoftware.beatthehouse"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

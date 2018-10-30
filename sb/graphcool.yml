@@ -1,0 +1,33 @@
+# In the types.graphql you define your data schema
+types: ./types.graphql
+
+
+functions:
+
+  signup:
+    type: resolver
+    schema: src/signup.graphql
+    handler:
+      code: src/signup.ts
+
+  authenticate:
+    type: resolver
+    schema: src/authenticate.graphql
+    handler:
+      code: src/authenticate.ts
+
+  validateToken:
+    type: resolver
+    schema: src/validateToken.graphql
+    handler:
+      code: src/validateToken.ts
+
+  loggedInUser:
+    type: resolver
+    schema: src/loggedInUser.graphql
+    handler:
+      code: src/loggedInUser.ts
+
+permissions:
+  - operation: "*"
+
